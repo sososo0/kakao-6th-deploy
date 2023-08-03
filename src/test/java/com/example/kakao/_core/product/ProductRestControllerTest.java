@@ -48,7 +48,7 @@ public class ProductRestControllerTest extends MyRestDoc {
     }
 
     @Test
-    public void testFindAll_InvalidPage_ExceptionThrown() throws Exception {
+    public void findAll_invalidPage_test() throws Exception {
 
         // given
         Integer page = -1;
@@ -62,7 +62,7 @@ public class ProductRestControllerTest extends MyRestDoc {
         resultActions.andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.response").isEmpty())
-                .andExpect(jsonPath("$.error.message").value("잘못된 page 번호입니다. : -1"));
+                .andExpect(jsonPath("$.error.message").value("WRONG_PAGE:"+page));
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
@@ -82,12 +82,12 @@ public class ProductRestControllerTest extends MyRestDoc {
 
         // verify
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"));
-        resultActions.andExpect(jsonPath("$.response.id").value(1));
-        resultActions.andExpect(jsonPath("$.response.productName").value("기본에 슬라이딩 지퍼백 크리스마스/플라워에디션 에디션 외 주방용품 특가전"));
-        resultActions.andExpect(jsonPath("$.response.description").value(""));
-        resultActions.andExpect(jsonPath("$.response.image").value("/images/1.jpg"));
-        resultActions.andExpect(jsonPath("$.response.price").value(1000));
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.response.id").value(1))
+                .andExpect(jsonPath("$.response.productName").value("기본에 슬라이딩 지퍼백 크리스마스/플라워에디션 에디션 외 주방용품 특가전"))
+                .andExpect(jsonPath("$.response.description").value(""))
+                .andExpect(jsonPath("$.response.image").value("/images/1.jpg"))
+                .andExpect(jsonPath("$.response.price").value(1000));
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
@@ -109,7 +109,7 @@ public class ProductRestControllerTest extends MyRestDoc {
         resultActions.andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.response").isEmpty())
-                .andExpect(jsonPath("$.error.message").value("해당 상품을 찾을 수 없습니다 : 20"));
+                .andExpect(jsonPath("$.error.message").value("PRODUCT_NOT_FOUND:"+id));
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }
